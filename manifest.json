@@ -3,18 +3,18 @@
     "short_name": "Feedsly",
     "icons": [
         {
-            "src": "/icon-192x192.png",  // Path to a 192x192 pixel icon
+            "src": "/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/icon-512x512.png",  // Path to a 512x512 pixel icon
+            "src": "/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
         }
     ],
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#f0f2f5", // Background color for the splash screen
-    "theme_color": "#3b82f6" // Theme color for the browser's address bar
+    "background_color": "#f0f2f5",
+    "theme_color": "#3b82f6"
 }
