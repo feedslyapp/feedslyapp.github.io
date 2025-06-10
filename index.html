@@ -1,257 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedsly</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="manifest" href="/manifest.json"> <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        body::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Hide scrollbar for IE, Edge and Firefox */
-        body {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-
-        /* Tailwind CSS Overrides (Optional - for demonstration) */
-        .bg-blue-500 { background-color: #3b82f6; /* Override primary color */ }
-        .hover\:bg-blue-600:hover { background-color: #2563eb; /* Override hover color */ }
-        .text-blue-500 { color: #3b82f6; }
-        .border-blue-500 { border-color: #3b82f6; }
-
-        /* Custom CSS for Feedsly */
-        .feed-item {
-            background-color: white;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            margin-right: 12px;
-            object-fit: cover; /* Ensure image fills the circle */
-        }
-        .username {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1e293b; /* Slightly darker text */
-        }
-        .handle {
-            font-size: 14px;
-            color: #6b7280; /* Muted color for handle */
-            margin-left: 4px;
-        }
-        .post-text {
-            font-size: 15px;
-            color: #374151; /* Slightly darker for body text */
-            line-height: 1.5; /* Improved line height for readability */
-            margin-top: 8px;
-        }
-        .post-image {
-            margin-top: 12px;
-            border-radius: 8px;
-            max-width: 100%; /* Ensure image doesn't overflow container */
-            height: auto; /* Maintain aspect ratio */
-        }
-        .post-actions {
-            margin-top: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center; /* Vertically align icons and text */
-        }
-        .action-button {
-            display: flex;
-            align-items: center; /* Vertically align icon and text */
-            color: #6b7280;
-            font-size: 14px;
-            cursor: pointer;
-            transition: color 0.2s ease; /* Smooth transition for hover effect */
-        }
-        .action-button:hover {
-            color: #3b82f6; /* Highlight on hover */
-        }
-        .action-icon {
-            margin-right: 4px; /* Space between icon and text */
-            width: 20px; /* Consistent icon size */
-            height: 20px;
-        }
-        .like-count, .retweet-count, .reply-count {
-            margin-left: 4px;
-        }
-
-         /* Styles for the iOS Add to Homescreen Popup */
-        #ios-homescreen-popup {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 16px;
-            border-radius: 8px;
-            z-index: 1000;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        #ios-homescreen-popup button {
-            margin-top: 8px;
-            padding: 8px 16px;
-            border-radius: 6px;
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        #ios-homescreen-popup button:hover {
-            background-color: #2563eb;
-        }
-        #ios-homescreen-popup p{
-             font-size: 14px;
-             margin-bottom: 8px;
-        }
-
-    </style>
-    <script>
-        // Function to detect if the user is on iOS
-        function isIOS() {
-            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        }
-
-        // Function to check if the user is in standalone mode (homescreen web app)
-        function isStandalone() {
-            return ('standalone' in window.navigator) && (window.navigator.standalone);
-        }
-    </script>
-</head>
-<body class="bg-gray-100 min-h-screen">
-    <header class="bg-white shadow-md py-4">
-        <div class="container mx-auto px-4">
-            <h1 class="text-2xl font-semibold text-blue-500 text-center">Feedsly</h1>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-4 py-6">
-        <div id="ios-homescreen-popup">
-            <p>For the best experience, add Feedsly to your home screen.</p>
-            <button id="close-popup">Got it!</button>
-        </div>
-
-        <div class="space-y-4">
-            <div class="feed-item">
-                <div class="flex items-center">
-                    <img src="https://source.unsplash.com/random/48x48/?portrait&1" alt="User Avatar" class="avatar">
-                    <div>
-                        <span class="username">John Doe</span>
-                        <span class="handle">@johndoe</span>
-                    </div>
-                </div>
-                <p class="post-text">
-                    Just had a great day at the beach!  The weather was perfect. #beachday #summer
-                </p>
-                <div class="post-actions">
-                    <div class="action-button">
-                        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/heart.svg" alt="Like" class="action-icon">
-                        <span class="like-count">15</span>
-                    </div>
-                    <div class="action-button">
-                        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/repeat.svg" alt="Retweet" class="action-icon">
-                        <span class="retweet-count">5</span>
-                    </div>
-                    <div class="action-button">
-                         <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Reply" class="action-icon">
-                        <span class="reply-count">2</span>
-                    </div>
-                    <div class="action-button">
-                        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/share.svg" alt="Share" class="action-icon">
-                    </div>
-                </div>
-            </div>
-
-            <div class="feed-item">
-                <div class="flex items-center">
-                    <img src="https://source.unsplash.com/random/48x48/?portrait&2" alt="User Avatar" class="avatar">
-                    <div>
-                        <span class="username">Jane Smith</span>
-                        <span class="handle">@janesmith</span>
-                    </div>
-                </div>
-                <p class="post-text">
-                    Check out this amazing view from my hike this morning! ⛰️ #hiking #naturephotography
-                </p>
-                <img src="https://source.unsplash.com/random/600x400/?mountain" alt="Mountain View" class="post-image">
-                <div class="post-actions">
-                    <div class="action-button">
-                        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/heart.svg" alt="Like" class="action-icon">
-                        <span class="like-count">28</span>
-                    </div>
-                    <div class="action-button">
-                        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/repeat.svg" alt="Retweet" class="action-icon">
-                        <span class="retweet-count">12</span>
-                    </div>
-                    <div class="action-button">
-                         <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Reply" class="action-icon">
-                        <span class="reply-count">8</span>
-                    </div>
-                     <div class="action-button">
-                        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/share.svg" alt="Share" class="action-icon">
-                    </div>
-                </div>
-            </div>
-             <div class="feed-item">
-                <div class="flex items-center">
-                    <img src="https://source.unsplash.com/random/48x48/?portrait&3" alt="User Avatar" class="avatar">
-                    <div>
-                        <span class="username">Peter Jones</span>
-                        <span class="handle">@peterjones</span>
-                    </div>
-                </div>
-                <p class="post-text">
-                   Anyone know a good recipe for chocolate chip cookies?
-                </p>
-
-                <div class="post-actions">
-                    <div class="action-button">
-                        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/heart.svg" alt="Like" class="action-icon">
-                        <span class="like-count">10</span>
-                    </div>
-                    <div class="action-button">
-                        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/repeat.svg" alt="Retweet" class="action-icon">
-                        <span class="retweet-count">2</span>
-                    </div>
-                    <div class="action-button">
-                         <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Reply" class="action-icon">
-                        <span class="reply-count">5</span>
-                    </div>
-                     <div class="action-button">
-                        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/share.svg" alt="Share" class="action-icon">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        // Show the iOS popup if the user is on iOS and not in standalone mode
-        if (isIOS() && !isStandalone()) {
-            document.getElementById('ios-homescreen-popup').style.display = 'block';
-            document.getElementById('close-popup').addEventListener('click', () => {
-                document.getElementById('ios-homescreen-popup').style.display = 'none';
-            });
-        }
-    </script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Simple Video Downloader</title>
+		<link rel="stylesheet" href="style.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<main>
+			<div class="container">
+				<h1>Video Downloader</h1>
+				<p>
+					Paste a video link from YouTube, TikTok, and more to get started.
+				</p>
+				<form id="download-form">
+					<input
+						type="url"
+						id="video-url"
+						placeholder="https://..."
+						required
+					/>
+					<button type="submit" id="submit-button">Download</button>
+				</form>
+				<div id="status-message"></div>
+				<div id="results-container"></div>
+			</div>
+		</main>
+		<script src="script.js"></script>
+	</body>
 </html>
