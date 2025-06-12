@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("theme-toggle");
   let allServicesData = []; // To store data for searching
 
-  // --- Theme Management (no changes here) ---
+  // --- Theme Management ---
   const applyTheme = (isDarkMode) => {
     document.body.classList.toggle("dark-mode", isDarkMode);
     themeToggle.checked = isDarkMode;
@@ -17,29 +17,42 @@ document.addEventListener("DOMContentLoaded", () => {
     applyTheme(isDarkMode);
   });
 
-  // --- Status & Graph Logic (no changes here) ---
+  // --- Status & Graph Logic ---
   const getServiceStatus = (reports) => {
     const maxReports = Math.max(...reports);
     if (maxReports > 200) return { level: "critical", text: "Major Outage" };
     if (maxReports > 50) return { level: "warning", text: "Possible Issues" };
     return { level: "ok", text: "No Issues Reported" };
   };
+
+  // --- THIS FUNCTION IS UPDATED ---
   const generateGraphSVG = (reports, statusClass) => {
     const width = 300;
     const height = 80;
-    const maxReport = Math.max(...reports, 1);
+    const padding = 5; // Vertical padding from top and bottom
+
+    const actualMin = Math.min(...reports);
+    const actualMax = Math.max(...reports);
+
+    // If the line is flat, we adjust the scale to center it.
+    // Otherwise, we use the actual max value for bumpy lines.
+    const scaleMax =
+      actualMin === actualMax ? actualMax * 2 || 2 : actualMax;
+
     const points = reports
-      .map(
-        (report, i) =>
-          `${(i / (reports.length - 1)) * width},${
-            height - (report / maxReport) * (height - 5) - 5
-          }`
-      )
+      .map((report, i) => {
+        const x = (i / (reports.length - 1)) * width;
+        // Avoid division by zero if scaleMax is 0
+        const ratio = scaleMax > 0 ? report / scaleMax : 0;
+        const y = height - (ratio * (height - padding * 2) + padding);
+        return `${x},${y}`;
+      })
       .join(" ");
+
     return `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none"><polyline class="graph-line ${statusClass}" points="${points}" /></svg>`;
   };
 
-  // --- Rendering Logic (no changes here) ---
+  // --- Rendering Logic ---
   const renderServices = (services) => {
     servicesGrid.innerHTML = "";
     if (services.length === 0) {
@@ -64,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // --- Search Logic (updated to use allServicesData) ---
+  // --- Search Logic ---
   searchInput.addEventListener("input", (e) => {
     const searchTerm = e.target.value.toLowerCase();
     const filteredServices = allServicesData.filter((service) =>
@@ -73,12 +86,10 @@ document.addEventListener("DOMContentLoaded", () => {
     renderServices(filteredServices);
   });
 
-  // --- NEW: Data Fetching Logic ---
+  // --- Data Fetching Logic ---
   const fetchAndRenderServices = async () => {
     try {
-      // Show a loading state
-      servicesGrid.innerHTML = `<p>Loading service statuses...</p>`;
-      // Fetch data from our new Vercel API endpoint
+      // The loader is now part of the initial HTML
       const response = await fetch("/api/services");
       if (!response.ok) {
         throw new Error(`API Error: ${response.statusText}`);
