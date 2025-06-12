@@ -55,7 +55,7 @@ const servicesToMonitor = [
   {
     id: "openai",
     name: "OpenAI",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg",
+    logo: "https://static-00.iconduck.com/assets.00/openai-icon-2021x2048-4rpe5x7n.png",
     apiUrl: "https://status.openai.com/api/v2/summary.json",
   },
   {
