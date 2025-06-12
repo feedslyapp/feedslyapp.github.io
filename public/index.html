@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Service Status Hub</title>
+    <title>CurrentStatus</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,10 +11,6 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-    <script
-      src="https://kit.fontawesome.com/a076d05399.js"
-      crossorigin="anonymous"
-    ></script>
   </head>
   <body>
     <header>
@@ -29,7 +25,11 @@
             />
           </div>
           <div class="theme-switcher">
-            <input type="checkbox" id="theme-toggle" class="theme-toggle-input" />
+            <input
+              type="checkbox"
+              id="theme-toggle"
+              class="theme-toggle-input"
+            />
             <label for="theme-toggle" class="theme-toggle-label">
               <span class="slider"></span>
             </label>
@@ -40,15 +40,23 @@
 
     <main>
       <div id="services-grid" class="services-grid">
-        <!-- Service cards will be injected here by JavaScript -->
+        <!-- This loader will be displayed initially. -->
+        <!-- JavaScript will replace this with the service cards once data is fetched. -->
+        <div class="loader-container">
+          <div class="loader"></div>
+          <p>Fetching latest statuses...</p>
+        </div>
       </div>
     </main>
 
     <footer>
-      <p>Powered by T3 Chat | Data is simulated for demonstration.</p>
+      <p>
+        Status data is updated periodically. Current Date: 6/12/2025, 4:52:10 PM
+        EDT
+      </p>
     </footer>
 
-    <script src="mock-data.js"></script>
+    <!-- No more mock-data.js! We are live. -->
     <script src="script.js"></script>
   </body>
 </html>
