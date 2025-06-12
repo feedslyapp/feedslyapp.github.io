@@ -1,37 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Video Downloader</title>
-		<link rel="stylesheet" href="style.css" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
-			rel="stylesheet"
-		/>
-	</head>
-	<body>
-		<main>
-			<div class="container">
-				<h1>Video Downloader</h1>
-				<p>
-					Paste a video link from YouTube, TikTok, and more to get started.
-				</p>
-				<form id="download-form">
-					<input
-						type="url"
-						id="video-url"
-						placeholder="https://..."
-						required
-					/>
-					<button type="submit" id="submit-button">Download</button>
-				</form>
-				<div id="status-message"></div>
-				<div id="results-container"></div>
-			</div>
-		</main>
-		<script src="script.js"></script>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service Status Hub</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <h1>Service Status Hub</h1>
+        <div class="controls">
+          <div class="search-container">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search for a service..."
+            />
+          </div>
+          <div class="theme-switcher">
+            <input type="checkbox" id="theme-toggle" class="theme-toggle-input" />
+            <label for="theme-toggle" class="theme-toggle-label">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div id="services-grid" class="services-grid">
+        <!-- Service cards will be injected here by JavaScript -->
+      </div>
+    </main>
+
+    <footer>
+      <p>Powered by T3 Chat | Data is simulated for demonstration.</p>
+    </footer>
+
+    <script src="mock-data.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
