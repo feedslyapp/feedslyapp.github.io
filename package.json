@@ -1,0 +1,11 @@
+{
+  "name": "status-checker",
+  "version": "1.0.0",
+  "description": "Service status checker with backend.",
+  "main": "index.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "author": "",
+  "license": "ISC"
+}
