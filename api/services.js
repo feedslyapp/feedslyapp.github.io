@@ -19,11 +19,10 @@ const generateReportsFromStatus = (status) => {
       );
     case "none":
     default:
-      // Low numbers for operational status
-      return Array.from(
-        { length: 10 },
-        () => 1 + Math.floor(Math.random() * 15)
-      );
+      // --- THIS IS THE CHANGED LINE ---
+      // Before: return Array.from({ length: 10 }, () => 1 + Math.floor(Math.random() * 15));
+      // After: Always return 1 for a perfectly flat line.
+      return Array.from({ length: 10 }, () => 1);
   }
 };
 
@@ -52,7 +51,7 @@ const servicesToMonitor = [
     id: "google",
     name: "Google",
     logo: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg",
-    // No simple API, so we'll use our generator with a default 'none' status
+    // This will now correctly use the new flat-line logic
     reports: generateReportsFromStatus("none"),
   },
   {
