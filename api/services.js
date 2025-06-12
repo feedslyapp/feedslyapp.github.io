@@ -31,13 +31,13 @@ const servicesToMonitor = [
   {
     id: "cloudflare",
     name: "Cloudflare",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Cloudflare_logo.svg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/9/94/Cloudflare_Logo.png",
     apiUrl: "https://www.cloudflarestatus.com/api/v2/summary.json",
   },
   {
     id: "discord",
     name: "Discord",
-    logo: "https://logowik.com/content/uploads/images/discord-new-20218785.jpg",
+    logo: "https://www.svgrepo.com/show/353655/discord-icon.svg",
     apiUrl: "https://discordstatus.com/api/v2/summary.json",
   },
   {
