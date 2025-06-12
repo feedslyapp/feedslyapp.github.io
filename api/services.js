@@ -23,26 +23,33 @@ const generateReportsFromStatus = (status) => {
 // --- Special function to handle Steam's unique API structure ---
 const fetchSteamStatus = async () => {
   try {
-    // --- THIS IS THE CORRECTED URL YOU FOUND ---
-    const response = await fetch(
-      "https://vortigaunt.steamstat.us/not_an_api.json"
-    );
-    if (!response.ok) throw new Error("Steam API fetch failed");
+    const url = "https://vortigaunt.steamstat.us/not_an_api.json";
+    // --- THIS IS THE FIX ---
+    // Add a User-Agent header to mimic a browser request
+    const response = await fetch(url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+      },
+    });
+
+    if (!response.ok) {
+      // Throw an error with the status text to see it in the logs
+      throw new Error(`Steam API fetch failed: ${response.statusText}`);
+    }
     const data = await response.json();
 
-    // We only want to show core services, not every single game
     const coreSteamServices = [
       "Steam Store",
       "Steam Community",
       "Steam Web API",
-      "CS2", // Counter-Strike 2
+      "CS2",
       "Dota 2",
     ];
 
     return data.services
       .filter((service) => coreSteamServices.includes(service.title))
       .map((service) => {
-        // Translate their status to our system's status
         let ourStatus = "none";
         if (service.status === "minor") ourStatus = "minor";
         if (service.status === "major") ourStatus = "major";
@@ -56,7 +63,6 @@ const fetchSteamStatus = async () => {
       });
   } catch (error) {
     console.error("Failed to fetch Steam status:", error);
-    // Return an empty array if the fetch fails so it doesn't crash the site
     return [];
   }
 };
@@ -102,7 +108,6 @@ const servicesToMonitor = [
 ];
 
 export default async function handler(request, response) {
-  // Create a promise for the standard services
   const standardServicesPromise = Promise.all(
     servicesToMonitor.map(async (service) => {
       if (service.apiUrl) {
@@ -121,16 +126,13 @@ export default async function handler(request, response) {
     })
   );
 
-  // Create a promise for the Steam services
   const steamServicesPromise = fetchSteamStatus();
 
-  // Wait for ALL promises to resolve
   const [standardResults, steamResults] = await Promise.all([
     standardServicesPromise,
     steamServicesPromise,
   ]);
 
-  // Combine the results into a single array
   const allResults = [...standardResults, ...steamResults];
 
   response.status(200).json(allResults);
