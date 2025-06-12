@@ -20,10 +20,13 @@ const generateReportsFromStatus = (status) => {
   }
 };
 
-// --- NEW: Special function to handle Steam's unique API structure ---
+// --- Special function to handle Steam's unique API structure ---
 const fetchSteamStatus = async () => {
   try {
-    const response = await fetch("https://steamstat.us/v2/status.json");
+    // --- THIS IS THE CORRECTED URL YOU FOUND ---
+    const response = await fetch(
+      "https://vortigaunt.steamstat.us/not_an_api.json"
+    );
     if (!response.ok) throw new Error("Steam API fetch failed");
     const data = await response.json();
 
