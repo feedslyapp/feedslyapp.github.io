@@ -25,16 +25,16 @@ const fetchSteamStatus = async () => {
   try {
     const url = "https://vortigaunt.steamstat.us/not_an_api.json";
     // --- THIS IS THE FIX ---
-    // Add a User-Agent header to mimic a browser request
+    // Add both User-Agent and Referer headers to fully mimic a browser
     const response = await fetch(url, {
       headers: {
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        Referer: "https://steamstat.us/",
       },
     });
 
     if (!response.ok) {
-      // Throw an error with the status text to see it in the logs
       throw new Error(`Steam API fetch failed: ${response.statusText}`);
     }
     const data = await response.json();
