@@ -1,8 +1,9 @@
 {
   "name": "status-checker",
   "version": "1.0.0",
-  "description": "Service status checker with backend.",
+  "description": "A service status checker with a Vercel backend.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "vercel dev"
   },
