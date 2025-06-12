@@ -46,26 +46,23 @@ const servicesToMonitor = [
     logo: "https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg",
     apiUrl: "https://www.githubstatus.com/api/v2/summary.json",
   },
-  // --- Services without a simple public API (we'll simulate them) ---
   {
-    id: "google",
-    name: "Google",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg",
-    // This will now correctly use the new flat-line logic
-    reports: generateReportsFromStatus("none"),
+    id: "stripe",
+    name: "Stripe",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg",
+    apiUrl: "https://status.stripe.com/api/v2/summary.json",
   },
   {
-    id: "x-com",
-    name: "X.com (Twitter)",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/5/57/X_logo_2023_%28white%29.png",
-    // Let's simulate a minor issue for demonstration
-    reports: generateReportsFromStatus("minor"),
+    id: "openai",
+    name: "OpenAI",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg",
+    apiUrl: "https://status.openai.com/api/v2/summary.json",
   },
   {
-    id: "aws",
-    name: "Amazon Web Services",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
-    reports: generateReportsFromStatus("none"),
+    id: "slack",
+    name: "Slack",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Slack_icon_2019.svg/1200px-Slack_icon_2019.svg.png",
+    apiUrl: "https://status.slack.com/api/v2/summary.json",
   },
 ];
 
