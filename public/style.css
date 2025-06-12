@@ -1,0 +1,218 @@
+/* --- CSS Variables for Theming --- */
+:root {
+  --bg-color: #f4f7f9;
+  --card-bg-color: #ffffff;
+  --text-color: #1a202c;
+  --subtle-text-color: #718096;
+  --border-color: #e2e8f0;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+  --green: #38a169;
+  --yellow: #d69e2e;
+  --red: #e53e3e;
+  --primary-accent: #4299e1;
+}
+
+body.dark-mode {
+  --bg-color: #1a202c;
+  --card-bg-color: #2d3748;
+  --text-color: #f7fafc;
+  --subtle-text-color: #a0aec0;
+  --border-color: #4a5568;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+/* --- General Styles --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* --- Header & Controls --- */
+header {
+  background-color: var(--card-bg-color);
+  padding: 1rem 5%;
+  box-shadow: 0 4px 6px -1px var(--shadow-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.search-container input {
+  width: 250px;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+/* --- Dark Mode Toggle Switch --- */
+.theme-switcher {
+  position: relative;
+}
+.theme-toggle-input {
+  display: none;
+}
+.theme-toggle-label {
+  display: block;
+  width: 50px;
+  height: 28px;
+  background-color: #ccc;
+  border-radius: 14px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+.theme-toggle-label .slider {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+.theme-toggle-input:checked + .theme-toggle-label {
+  background-color: var(--primary-accent);
+}
+.theme-toggle-input:checked + .theme-toggle-label .slider {
+  transform: translateX(21px);
+}
+
+/* --- Main Content Grid --- */
+main {
+  padding: 2rem 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.service-card {
+  background-color: var(--card-bg-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px var(--shadow-color),
+    0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px var(--shadow-color),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.service-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.service-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.graph-container {
+  width: 100%;
+  height: 80px;
+}
+
+.graph-container svg {
+  width: 100%;
+  height: 100%;
+}
+
+.graph-line {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.status-ok {
+  stroke: var(--green);
+}
+.status-warning {
+  stroke: var(--yellow);
+}
+.status-critical {
+  stroke: var(--red);
+}
+
+.status-text {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.status-text.ok {
+  color: var(--green);
+}
+.status-text.warning {
+  color: var(--yellow);
+}
+.status-text.critical {
+  color: var(--red);
+}
+
+/* --- Footer --- */
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--subtle-text-color);
+  font-size: 0.9rem;
+}
