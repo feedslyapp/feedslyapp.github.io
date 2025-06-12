@@ -1,32 +1,64 @@
 // This is a Vercel Serverless Function
-// It will live at the endpoint /api/services
 
 // Helper function to generate a plausible report history based on status
 const generateReportsFromStatus = (status) => {
   switch (status) {
     case "critical":
     case "major":
-      // High numbers for a major outage
       return Array.from(
         { length: 10 },
         () => 300 + Math.floor(Math.random() * 700)
       );
     case "minor":
-      // Medium numbers for a partial outage
       return Array.from(
         { length: 10 },
         () => 50 + Math.floor(Math.random() * 100)
       );
     case "none":
     default:
-      // --- THIS IS THE CHANGED LINE ---
-      // Before: return Array.from({ length: 10 }, () => 1 + Math.floor(Math.random() * 15));
-      // After: Always return 1 for a perfectly flat line.
       return Array.from({ length: 10 }, () => 1);
   }
 };
 
-// Define all the services we want to monitor
+// --- NEW: Special function to handle Steam's unique API structure ---
+const fetchSteamStatus = async () => {
+  try {
+    const response = await fetch("https://steamstat.us/v2/status.json");
+    if (!response.ok) throw new Error("Steam API fetch failed");
+    const data = await response.json();
+
+    // We only want to show core services, not every single game
+    const coreSteamServices = [
+      "Steam Store",
+      "Steam Community",
+      "Steam Web API",
+      "CS2", // Counter-Strike 2
+      "Dota 2",
+    ];
+
+    return data.services
+      .filter((service) => coreSteamServices.includes(service.title))
+      .map((service) => {
+        // Translate their status to our system's status
+        let ourStatus = "none";
+        if (service.status === "minor") ourStatus = "minor";
+        if (service.status === "major") ourStatus = "major";
+
+        return {
+          id: `steam-${service.title.toLowerCase().replace(/ /g, "-")}`,
+          name: service.title,
+          logo: "https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg",
+          reports: generateReportsFromStatus(ourStatus),
+        };
+      });
+  } catch (error) {
+    console.error("Failed to fetch Steam status:", error);
+    // Return an empty array if the fetch fails so it doesn't crash the site
+    return [];
+  }
+};
+
+// Define all the other services we want to monitor
 const servicesToMonitor = [
   {
     id: "cloudflare",
@@ -67,29 +99,36 @@ const servicesToMonitor = [
 ];
 
 export default async function handler(request, response) {
-  const promises = servicesToMonitor.map(async (service) => {
-    // If the service has a real API URL, fetch it
-    if (service.apiUrl) {
-      try {
-        const apiResponse = await fetch(service.apiUrl);
-        if (!apiResponse.ok) throw new Error("API fetch failed");
-        const data = await apiResponse.json();
-        // Translate the real status into a report history for our graph
-        const reports = generateReportsFromStatus(data.status.indicator);
-        return { ...service, reports };
-      } catch (error) {
-        console.error(`Failed to fetch status for ${service.name}:`, error);
-        // Fallback if the API fails
-        return { ...service, reports: generateReportsFromStatus("unknown") };
+  // Create a promise for the standard services
+  const standardServicesPromise = Promise.all(
+    servicesToMonitor.map(async (service) => {
+      if (service.apiUrl) {
+        try {
+          const apiResponse = await fetch(service.apiUrl);
+          if (!apiResponse.ok) throw new Error("API fetch failed");
+          const data = await apiResponse.json();
+          const reports = generateReportsFromStatus(data.status.indicator);
+          return { ...service, reports };
+        } catch (error) {
+          console.error(`Failed to fetch status for ${service.name}:`, error);
+          return { ...service, reports: generateReportsFromStatus("unknown") };
+        }
       }
-    }
-    // Otherwise, return the service with its pre-defined mock data
-    return service;
-  });
+      return service;
+    })
+  );
 
-  // Wait for all fetches to complete
-  const results = await Promise.all(promises);
+  // Create a promise for the Steam services
+  const steamServicesPromise = fetchSteamStatus();
 
-  // Send the final combined data to the frontend
-  response.status(200).json(results);
+  // Wait for ALL promises to resolve
+  const [standardResults, steamResults] = await Promise.all([
+    standardServicesPromise,
+    steamServicesPromise,
+  ]);
+
+  // Combine the results into a single array
+  const allResults = [...standardResults, ...steamResults];
+
+  response.status(200).json(allResults);
 }
