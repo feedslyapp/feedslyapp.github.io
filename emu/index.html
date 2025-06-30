@@ -1,1 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Emulator</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app-container">
+      <!-- Sidebar for Console Selection -->
+      <nav class="sidebar">
+        <div class="sidebar-header">
+          <h2>Consoles</h2>
+        </div>
+        <ul class="console-list">
+          <li class="console-item active" data-console="SNES">
+            Super Nintendo
+          </li>
+          <li class="console-item" data-console="Genesis">Sega Genesis</li>
+          <li class="console-item" data-console="GBA">Game Boy Advance</li>
+          <li class="console-item" data-console="PSX">PlayStation</li>
+          <li class="console-item" data-console="N64">Nintendo 64</li>
+        </ul>
+      </nav>
 
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <div id="game-viewport">
+          <div id="welcome-message">
+            <h1>T3 Web Emulator</h1>
+            <p>
+              Select a console from the left, then load a game file to begin.
+            </p>
+          </div>
+          <!-- The actual emulator would render inside this canvas -->
+          <canvas id="game-canvas"></canvas>
+        </div>
+
+        <div class="controls">
+          <div id="game-info">No game loaded.</div>
+          <div class="button-group">
+            <button id="load-rom-button" class="btn">Load Game</button>
+            <input type="file" id="rom-input" hidden />
+            <button id="fullscreen-button" class="btn">Fullscreen</button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
