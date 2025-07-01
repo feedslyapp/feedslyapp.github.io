@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// --- API Configuration ---
 	// Using a CORS proxy to bypass browser restrictions.
 	// In a real application, you'd build your own backend for this.
-	const PROXY_URL = "https://corsproxy.io/?";
+	const PROXY_URL = "https://www.roproxy.com";
 	const ROBLOX_API = {
 		users: "https://users.roblox.com/v1",
 		games: "https://games.roblox.com/v1",
